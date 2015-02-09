@@ -1,9 +1,10 @@
 Package: MIC
 Type: Package
-Title: What the package does (short line)
+Title: Maximal Information Coefficient 
 Version: 1.0
 Date: 2015-02-09
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Tom Jin <sjin@stats.ox.ac.uk>
+Maintainer: Tom Jin <sjin@stats.ox.ac.uk>
+Description: Compute the maximal information coefficient with access to 
+intermediate results. Written for OxWaSP Applied Statistics 2014-2015.
+License: MIT
