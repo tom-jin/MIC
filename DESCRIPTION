@@ -5,6 +5,5 @@ Version: 1.0
 Date: 2015-02-09
 Author: Tom Jin <sjin@stats.ox.ac.uk>
 Maintainer: Tom Jin <sjin@stats.ox.ac.uk>
-Description: Compute the maximal information coefficient with access to 
-intermediate results. Written for OxWaSP Applied Statistics 2014-2015.
+Description: Compute the maximal information coefficient with access to intermediate results. Written for OxWaSP Applied Statistics 2014-2015.
 License: MIT
