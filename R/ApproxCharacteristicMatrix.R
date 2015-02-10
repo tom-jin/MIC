@@ -6,15 +6,15 @@ ApproxCharacteristicMatrix <- function(data, boundary) {
   
   for(y in 2:floor(boundary/2)) {
     x <- floor(boundary/y)
-    I[, y] <- ApproxMaxMI(data, x, y)
-    J[, y] <- ApproxMaxMI(reversedata, x, y)
+    I[1:x, y] <- ApproxMaxMI(data, x, y)
+    J[1:x, y] <- ApproxMaxMI(reversedata, x, y)
   }
   
-  for(x in 1:boundary) {
-    for(y in 1:boundary) {
-      if(x*y > boundary)
-        break
-      
+  for(x in 2:boundary) {
+    for(y in 2:boundary) {
+#       if(x*y > boundary)
+#         break
+
       I[x, y] <- max(I[x, y], J[y, x], na.rm = TRUE)
       M[x, y] <- I[x, y] / min(log(x), log(y), na.rm = TRUE)
     }
@@ -22,3 +22,4 @@ ApproxCharacteristicMatrix <- function(data, boundary) {
   
   return(M)
 }
+

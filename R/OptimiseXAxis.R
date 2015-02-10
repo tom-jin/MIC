@@ -6,7 +6,7 @@ OptimiseXAxis <- function(data, ypart, x) {
   
   for(t in 2:k) {
     maxs <- rep(0, length(xpart))
-    maxH <- 0
+    maxH <- -Inf
     for(s in 1:t) {
       part <- Repartition(xpart, 0, s, t)
       H <- ShannonEntropy(part) - ShannonEntropy(part, ypart)
@@ -15,32 +15,34 @@ OptimiseXAxis <- function(data, ypart, x) {
         maxH <- H
       }
     }
-    P[t, 1, ] <- maxs
-    I[t, 1] <- ShannonEntropy(ypart) + ShannonEntropy(maxs) - ShannonEntropy(maxs, ypart)
+    P[t, 2, ] <- maxs
+    I[t, 2] <- ShannonEntropy(ypart) + ShannonEntropy(maxs) - ShannonEntropy(maxs, ypart)
   }
   
-  for(l in 3:x) {
-    for(t in l:k) {
-      maxs <- 0
-      maxf <- -Inf
-      for(s in (l-1):t) {
-        f <- (data[s, 1]/data[t, 1])*(I[s, l-1] - ShannonEntropy(ypart)) - 
-          ((data[t, 1] - data[s, 1])/data[s, 1])*ShannonEntropy(Repartition(xpart, s, t), ypart)
-        if(is.na(f)) browser()
-        if(f > maxf) {
-          maxs <- s
-          maxf <- f
+  if(x > 2)
+    for(l in 3:x) {
+      if(l <= k)
+      for(t in l:k) {
+        maxs <- 0
+        maxf <- -Inf
+        for(s in (l-1):t) {
+          f <- (data[s, 1]/data[t, 1])*(I[s, l-1] - ShannonEntropy(ypart)) - 
+            ((data[t, 1] - data[s, 1])/data[s, 1])*ShannonEntropy(Repartition(xpart, s, t), ypart)
+          if(is.na(f)) browser()
+          if(f > maxf) {
+            maxs <- s
+            maxf <- f
+          }
         }
+        P[t, l, ] <- Unionpartition(P[maxs, l-1, ], xpart, t)
+        I[t, l] <- ShannonEntropy(ypart) + ShannonEntropy(P[t, l, ]) - ShannonEntropy(P[t, l, ], ypart)
       }
-      P[t, l, ] <- Unionpartition(P[maxs, l-1, ], t)
-      I[t, l] <- ShannonEntropy(ypart) + ShannonEntropy(P[t, l, ]) - ShannonEntropy(P[t, l, ], ypart)
     }
-  }
   
   if(k < x)
     for(l in (k+1):x) {
-      P[k, l-1, ] <- P[k, k-1, ]
-      I[k, l-1] <- I[k, k]
+      P[k, l, ] <- P[k, k, ]
+      I[k, l] <- I[k, k]
     }
   
   return(I[k, ])
