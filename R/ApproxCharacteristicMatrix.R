@@ -4,8 +4,8 @@ ApproxCharacteristicMatrix <- function(data, boundary) {
   I <- matrix(NA, boundary, boundary)
   J <- matrix(NA, boundary, boundary)
   
-  for(y in 2:floor(boundary/2)) {
-    x <- floor(boundary/y)
+  for(y in 2:boundary) {
+    x <- boundary
     I[1:x, y] <- ApproxMaxMI(data, x, y)
     J[1:x, y] <- ApproxMaxMI(reversedata, x, y)
   }
